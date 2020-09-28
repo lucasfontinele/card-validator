@@ -1,6 +1,10 @@
-import luhn10 = require("./luhn-10");
-import getCardTypes = require("credit-card-type");
-import type { Verification } from "./types";
+import luhn10 = require('./luhn-10');
+import getCardTypes = require('credit-card-type');
+
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
 
 // TODO this should probably come from credit-card-type
 type CreditCardType = {
@@ -27,7 +31,7 @@ type CardNumberOptions = {
 function verification(
   card: CreditCardType | null,
   isPotentiallyValid: boolean,
-  isValid: boolean
+  isValid: boolean,
 ): CardNumberVerification {
   return {
     card,
@@ -38,15 +42,15 @@ function verification(
 
 export function cardNumber(
   value: string | unknown,
-  options: CardNumberOptions = {}
+  options: CardNumberOptions = {},
 ): CardNumberVerification {
   let isPotentiallyValid, isValid, maxLength;
 
-  if (typeof value !== "string" && typeof value !== "number") {
+  if (typeof value !== 'string' && typeof value !== 'number') {
     return verification(null, false, false);
   }
 
-  const testCardValue = String(value).replace(/-|\s/g, "");
+  const testCardValue = String(value).replace(/-|\s/g, '');
 
   if (!/^\d*$/.test(testCardValue)) {
     return verification(null, false, false);

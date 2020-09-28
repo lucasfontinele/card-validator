@@ -1,17 +1,20 @@
-import type { Verification } from "./types";
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
 
 const CARD_NUMBER_REGEX = /^[\d\s-]*$/;
 const MAX_LENGTH = 255;
 
 function verification(
   isValid: boolean,
-  isPotentiallyValid: boolean
+  isPotentiallyValid: boolean,
 ): Verification {
   return { isValid, isPotentiallyValid };
 }
 
 export function cardholderName(value: string | unknown): Verification {
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return verification(false, false);
   }
 

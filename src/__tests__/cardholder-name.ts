@@ -1,10 +1,14 @@
-import { cardholderName } from "../cardholder-name";
-import type { Verification } from "../types";
+import { cardholderName } from '../cardholder-name';
 
-describe("cardholderName", () => {
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
+
+describe('cardholderName', () => {
   describe.each([
     [
-      "returns false for non-string types",
+      'returns false for non-string types',
       [
         [0, { isValid: false, isPotentiallyValid: false }],
         [0, { isValid: false, isPotentiallyValid: false }],
@@ -23,51 +27,51 @@ describe("cardholderName", () => {
     ],
 
     [
-      "returns false strings that are longer than 255 characters",
+      'returns false strings that are longer than 255 characters',
       [
         [
-          "this name is 256 chracters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          'this name is 256 chracters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           { isValid: false, isPotentiallyValid: false },
         ],
       ],
     ],
 
     [
-      "accepts valid cardholder names",
+      'accepts valid cardholder names',
       [
-        ["name", { isValid: true, isPotentiallyValid: true }],
-        ["given sur", { isValid: true, isPotentiallyValid: true }],
+        ['name', { isValid: true, isPotentiallyValid: true }],
+        ['given sur', { isValid: true, isPotentiallyValid: true }],
         [
-          "this name is 255 chracters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          'this name is 255 chracters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           { isValid: true, isPotentiallyValid: true },
         ],
-        ["name with many spaces", { isValid: true, isPotentiallyValid: true }],
+        ['name with many spaces', { isValid: true, isPotentiallyValid: true }],
         [
-          "name with number in it 01234",
+          'name with number in it 01234',
           { isValid: true, isPotentiallyValid: true },
         ],
       ],
     ],
 
     [
-      "returns isPotentiallyValid for shorter-than-1 strings",
-      [["", { isValid: false, isPotentiallyValid: true }]],
+      'returns isPotentiallyValid for shorter-than-1 strings',
+      [['', { isValid: false, isPotentiallyValid: true }]],
     ],
 
     [
-      "returns isPotentiallyValid for strings with only numbers, spaces, and hyphens",
+      'returns isPotentiallyValid for strings with only numbers, spaces, and hyphens',
       [
-        ["4111", { isValid: false, isPotentiallyValid: true }],
-        ["4111 1111", { isValid: false, isPotentiallyValid: true }],
-        ["4111-1111", { isValid: false, isPotentiallyValid: true }],
+        ['4111', { isValid: false, isPotentiallyValid: true }],
+        ['4111 1111', { isValid: false, isPotentiallyValid: true }],
+        ['4111-1111', { isValid: false, isPotentiallyValid: true }],
       ],
     ],
   ] as Array<[string, Array<[string, Verification]>]>)(
-    "%s",
+    '%s',
     (description, tests) => {
-      it.each(tests)("parses %s to be %p", (parseMe, meta) => {
+      it.each(tests)('parses %s to be %p', (parseMe, meta) => {
         expect(cardholderName(parseMe)).toEqual(meta);
       });
-    }
+    },
   );
 });

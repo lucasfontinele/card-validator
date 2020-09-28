@@ -1,4 +1,7 @@
-import type { Verification } from "./types";
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
 
 const DEFAULT_LENGTH = 3;
 
@@ -25,18 +28,18 @@ function max(array: number[]): number {
 
 function verification(
   isValid: boolean,
-  isPotentiallyValid: boolean
+  isPotentiallyValid: boolean,
 ): Verification {
   return { isValid, isPotentiallyValid };
 }
 
 export function cvv(
   value: string | unknown,
-  maxLength: number | number[] = DEFAULT_LENGTH
+  maxLength: number | number[] = DEFAULT_LENGTH,
 ): Verification {
   maxLength = maxLength instanceof Array ? maxLength : [maxLength];
 
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return verification(false, false);
   }
   if (!/^\d*$/.test(value)) {

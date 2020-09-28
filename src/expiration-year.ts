@@ -1,4 +1,7 @@
-import type { Verification } from "./types";
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
 
 export interface ExpirationYearVerification extends Verification {
   isCurrentYear: boolean;
@@ -9,7 +12,7 @@ const DEFAULT_VALID_NUMBER_OF_YEARS_IN_THE_FUTURE = 19;
 function verification(
   isValid: boolean,
   isPotentiallyValid: boolean,
-  isCurrentYear?: boolean
+  isCurrentYear?: boolean,
 ): ExpirationYearVerification {
   return {
     isValid,
@@ -20,14 +23,14 @@ function verification(
 
 export function expirationYear(
   value: string | unknown,
-  maxElapsedYear = DEFAULT_VALID_NUMBER_OF_YEARS_IN_THE_FUTURE
+  maxElapsedYear = DEFAULT_VALID_NUMBER_OF_YEARS_IN_THE_FUTURE,
 ): ExpirationYearVerification {
   let isCurrentYear;
 
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return verification(false, false);
   }
-  if (value.replace(/\s/g, "") === "") {
+  if (value.replace(/\s/g, '') === '') {
     return verification(false, true);
   }
   if (!/^\d*$/.test(value)) {

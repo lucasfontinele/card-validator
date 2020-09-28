@@ -1,8 +1,11 @@
-import { parseDate } from "./lib/parse-date";
-import { expirationMonth } from "./expiration-month";
-import { expirationYear } from "./expiration-year";
+import { parseDate } from './lib/parse-date';
+import { expirationMonth } from './expiration-month';
+import { expirationYear } from './expiration-year';
 
-import type { Verification } from "./types";
+type Verification = {
+  isValid: boolean;
+  isPotentiallyValid: boolean;
+};
 
 export interface ExpirationDateVerification extends Verification {
   month: string | null;
@@ -13,7 +16,7 @@ function verification(
   isValid: boolean,
   isPotentiallyValid: boolean,
   month: string | null,
-  year: string | null
+  year: string | null,
 ): ExpirationDateVerification {
   return {
     isValid,
@@ -25,14 +28,14 @@ function verification(
 
 export function expirationDate(
   value: string | Record<string, string | number> | unknown,
-  maxElapsedYear?: number
+  maxElapsedYear?: number,
 ): ExpirationDateVerification {
   let date;
 
-  if (typeof value === "string") {
-    value = value.replace(/^(\d\d) (\d\d(\d\d)?)$/, "$1/$2");
+  if (typeof value === 'string') {
+    value = value.replace(/^(\d\d) (\d\d(\d\d)?)$/, '$1/$2');
     date = parseDate(String(value));
-  } else if (value !== null && typeof value === "object") {
+  } else if (value !== null && typeof value === 'object') {
     const fullDate = { ...value } as ExpirationDateVerification;
     date = {
       month: String(fullDate.month),
@@ -53,7 +56,7 @@ export function expirationDate(
         isValidForThisYear,
         isValidForThisYear,
         date.month,
-        date.year
+        date.year,
       );
     }
 
